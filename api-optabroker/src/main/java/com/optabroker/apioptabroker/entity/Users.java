@@ -18,11 +18,11 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long idUser;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String phone;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String email;
 
     @Column(nullable = false)
@@ -37,7 +37,13 @@ public class Users implements UserDetails {
 
     }
 
-    public Users(long idUser, String name, String phone, String email, String login,String password,UserRole role){
+    public Users(String login, String password, UserRole role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
+    public Users(long idUser, String name, String phone, String email, String login, String password, UserRole role){
         this.idUser = idUser;
         this.name = name;
         this.phone = phone;

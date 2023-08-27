@@ -1,14 +1,16 @@
 package com.optabroker.apioptabroker.dto;
 
+import com.optabroker.apioptabroker.entity.UserRole;
+
 public class RegisterDTO {
     private String login;
 
     private String password;
 
-    private String role;
+    private UserRole role;
 
 
-    public RegisterDTO(String login, String password, String role) {
+    public RegisterDTO(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
         this.role = role;
@@ -30,11 +32,11 @@ public class RegisterDTO {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 }

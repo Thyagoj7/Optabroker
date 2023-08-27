@@ -22,7 +22,10 @@ public class SpringConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers(HttpMethod.POST, "/auth/login").permitAll() // Qualquer um vai poder disparar requisição para login
+                        .antMatchers(HttpMethod.POST, "/auth/register").permitAll() //QUal um vai poder disparar requisição para registrar
                         .antMatchers(HttpMethod.POST, "/adcionar").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .build();
