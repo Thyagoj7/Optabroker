@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 @Service
 public class TokenService {
@@ -18,7 +19,7 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generationToken(Users users){
+    public String generateToken(Users users){
         try{
                 Algorithm algorithm = Algorithm.HMAC256(secret);
                 String token = JWT.create()
@@ -44,8 +45,15 @@ public class TokenService {
             } catch (JWTVerificationException exception){
                 return "";            }
         }
-        private Instant genExpirationDate(){
-            return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("3:00"));
+//        private Instant genExpirationDate(){
+//            return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-3:00"));
+
+
+    private Instant genExpirationDate() {
+        ZoneOffset zoneOffset = ZoneOffset.of("-03:00");
+        ZonedDateTime zonedDateTime = LocalDateTime.now().plusHours(2).atZone(zoneOffset);
+        return zonedDateTime.toInstant();
+
 
 
         }

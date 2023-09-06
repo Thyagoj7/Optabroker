@@ -1,8 +1,10 @@
 package com.optabroker.apioptabroker.controller;
 
 import com.optabroker.apioptabroker.dto.AuthenticationDTO;
+import com.optabroker.apioptabroker.dto.LoginReponseDTO;
 import com.optabroker.apioptabroker.dto.RegisterDTO;
 import com.optabroker.apioptabroker.entity.Users;
+import com.optabroker.apioptabroker.infra.security.TokenService;
 import com.optabroker.apioptabroker.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +28,17 @@ public class AuthenticationController {
     @Autowired
     private UsersRepository repository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Users) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginReponseDTO(token));
     }
 
     @PostMapping("/register")
